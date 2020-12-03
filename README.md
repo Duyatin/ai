@@ -9,3 +9,11 @@ Module: ./ai_thyroid_calcification
 ## Malignancy assessment
 Module: ./ai_thyroid_malignancy
 - To train and evaluate model: malignancy.ipynb
+
+## Multi-task Net
+Module: ./ai_thyroid_multi_task
+Multi-task inference: 
+- Lesion segmentation
+- Calcification segmentation
+- Malignancy assessment
+
