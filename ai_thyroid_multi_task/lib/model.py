@@ -17,30 +17,46 @@ class DoubleConv(nn.Module):
 
     def forward(self, input):
         return self.conv(input)
-
-
-class Net_v1(nn.Module):
+    
+    
+class DoubleConv_v2(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(Net_v1, self).__init__()
+        super(DoubleConv_v2, self).__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_ch, out_ch, 3, padding=1),
+            nn.BatchNorm2d(out_ch),
+            nn.LeakyReLU(inplace=True),
+            nn.Conv2d(out_ch, out_ch, 3, padding=1),
+            nn.BatchNorm2d(out_ch),
+            nn.LeakyReLU(inplace=True)
+        )
+
+    def forward(self, input):
+        return self.conv(input)
+
+
+class Net_v2(nn.Module):
+    def __init__(self, in_ch, out_ch):
+        super(Net_v2, self).__init__()
 
         # U-Net
-        self.conv1 = DoubleConv(in_ch, 64)
+        self.conv1 = DoubleConv_v2(in_ch, 64)
         self.pool1 = nn.MaxPool2d(2)
-        self.conv2 = DoubleConv(64, 128)
+        self.conv2 = DoubleConv_v2(64, 128)
         self.pool2 = nn.MaxPool2d(2)
-        self.conv3 = DoubleConv(128, 256)
+        self.conv3 = DoubleConv_v2(128, 256)
         self.pool3 = nn.MaxPool2d(2)
-        self.conv4 = DoubleConv(256, 512)
+        self.conv4 = DoubleConv_v2(256, 512)
         self.pool4 = nn.MaxPool2d(2)
-        self.conv5 = DoubleConv(512, 1024)
+        self.conv5 = DoubleConv_v2(512, 1024)
         self.up6 = nn.ConvTranspose2d(1024, 512, 2, stride=2)
-        self.conv6 = DoubleConv(1024, 512)
+        self.conv6 = DoubleConv_v2(1024, 512)
         self.up7 = nn.ConvTranspose2d(512, 256, 2, stride=2)
-        self.conv7 = DoubleConv(512, 256)
+        self.conv7 = DoubleConv_v2(512, 256)
         self.up8 = nn.ConvTranspose2d(256, 128, 2, stride=2)
-        self.conv8 = DoubleConv(256, 128)
+        self.conv8 = DoubleConv_v2(256, 128)
         self.up9 = nn.ConvTranspose2d(128, 64, 2, stride=2)
-        self.conv9 = DoubleConv(128, 64)
+        self.conv9 = DoubleConv_v2(128, 64)
         self.conv10 = nn.Conv2d(64, out_ch, 1)
         
         # Auxiliary task: Malignancy
@@ -79,5 +95,3 @@ class Net_v1(nn.Module):
         malignant = nn.Sigmoid()(aux_l1)
         
         return c10, malignant
-
-
