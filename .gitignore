@@ -2,6 +2,7 @@ __pycache__/
 .ipynb_checkpoints/
 *.csv
 *.png
+*.pdf
 !ai_thyroid_calcification/example_data/*
 !ai_thyroid_clinical_feature/data/*
 !ai_thyroid_detection_faster_rcnn/output/*
