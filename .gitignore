@@ -3,6 +3,7 @@ __pycache__/
 *.csv
 *.png
 *.pdf
+misc/
 !ai_thyroid_calcification/example_data/*
 !ai_thyroid_clinical_feature/data/*
 !ai_thyroid_detection_faster_rcnn/output/*
